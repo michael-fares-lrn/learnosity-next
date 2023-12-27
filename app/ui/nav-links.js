@@ -1,5 +1,5 @@
 'use client';
-import Link  from 'next/link';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 
@@ -16,7 +16,7 @@ const links = [
   },
   { 
       name: 'Report',
-    href: '/report' ,
+    href: '/reports' ,
 //    icon: Icon
 },
 ];
@@ -29,7 +29,7 @@ export default function NavLinks() {
 
         return (
           <Link className={
-            clsx("flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-60 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3",
+            clsx("flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-60 p-3 text-md font-light hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3",
               {
                 'bg-blue-100 text-blue-600': link.href === pathname
               }

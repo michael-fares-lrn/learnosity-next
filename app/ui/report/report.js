@@ -1,10 +1,9 @@
 'use client'
 import { useEffect } from "react";
-
-export default function Assessment({signedRequest}) {
+export default function Report({signedRequest}) {
     useEffect(() => {
         const script = document.createElement("script")
-        script.src ="https://items.learnosity.com"
+        script.src ="https://reports.learnosity.com"
         script.async = true
         script.onload = () => {
             const callbacks = {
@@ -15,16 +14,12 @@ export default function Assessment({signedRequest}) {
                     console.log("Error Detail ", e.detail);
                 },
                 readyListener: function () {
-                    console.log("Learnosity Items API is ready");
-                    console.log("itemsApp", itemsApp)
-                    const sessionId = itemsApp.getActivity().session_id;
-                    itemsApp.on("test:submit:success", function() {
-                        console.log("test:submit:success Fired for session_id", sessionId)
-                    })
+                    console.log("Learnosity Reports API is ready");
+                    console.log("reportsApp", reportsApp)
                 },
             };
            
-            var itemsApp = LearnosityItems.init(
+            var reportsApp = LearnosityReports.init(
                 signedRequest,
                 callbacks
             );
@@ -39,7 +34,7 @@ export default function Assessment({signedRequest}) {
 
     return (
         <div>
-             <div id="learnosity_assess"></div>
+             <div id="session-detail"></div>
         </div>
        
     )

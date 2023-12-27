@@ -2,6 +2,8 @@
 import { getMessage, getAssessment } from "./lib/data"
 import { SomeComponent } from "./ui/some-component";
 
+
+
 export default async function Home() {
   const message = await getMessage();
   const assessment = await getAssessment();

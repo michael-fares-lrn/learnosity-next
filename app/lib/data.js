@@ -1,3 +1,4 @@
+
 const Learnosity = require('learnosity-sdk-nodejs');
 const config = require('./config'); // Load consumer key & secret from config.js
 
@@ -8,51 +9,102 @@ export async function getMessage() {
     return {message: "this is the test message from the server async function"}
 }
 
-export async function getAssessment() {
-    // Include server side Learnosity SDK, and set up variables related to user access.
-
-
-    // Load the UUID library
-
-// - - - - - - Learnosity server-side configuration - - - - - - //
-
-// Generate the user ID and session ID as UUIDs, set the web server domain.
-const user_id = 'demos-user';
-const session_id = uuid.v4();
-
+export async function getAuthoring() {
 
 
     const learnositySdk = new Learnosity(); // Instantiate the SDK
-    // Items API configuration parameters.
+    // Author API configuration parameters.
     const signedRequest = learnositySdk.init(
-        'items',                              // Select Items API
-        // Consumer key and consumer secret are the public & private security keys required to access Learnosity APIs and data. These keys grant access to Learnosity's public demos account. Learnosity will provide keys for your own account.
+        'author',                             
         {
-            consumer_key: config.consumerKey, // Load key from config.js
-            domain: domain                   // Set the domain (from line 20)
+            consumer_key: config.consumerKey, 
+            domain: domain                  
         },
-        config.consumerSecret,                // Load secret from config.js
+        config.consumerSecret,
         {
-            // Unique student identifier, a UUID generated on line 18.
-            user_id: user_id,
-            // A reference of the Activity to retrieve from the Item bank, defining which Items will be served in this assessment.
-            items: ["Demo3", "Demo4", "Demo8", "Demo9"],
-            // Selects a rendering mode, `assess` type is a "standalone" mode (loading a complete assessment player for navigation, VS `inline`, for embedded).
-            // Uniquely identifies this specific assessment attempt session for  save/resume, data retrieval and reporting purposes. A UUID generated on line 18.
-            session_id: session_id,
-            // Used in data retrieval and reporting to compare results with other users submitting the same assessment.
-            activity_id: 'quickstart_examples_activity_001',
-            // Selects a rendering mode, `assess` type is a "standalone" mode (loading a complete assessment player for navigation, VS `inline`, for embedded).
-            rendering_type: 'assess',
-            // Selects the context for the student response storage `submit_practice` mode means student response storage in the Learnosity cloud, for grading.
-            type: 'submit_practice',
-            // Human-friendly display name to be shown in reporting.
-            name: 'Items API Quickstart',
-            // Can be set to `initial, `resume` or `review`. Optional. Default = `initial`.
-            state: 'initial'
+            "mode": "activity_edit",
+            "reference": "fares_activity",
+            "user": {
+                  "id": "demos-site",
+                  "firstname": "Demos",
+                  "lastname": "User",
+                  "email": "demos@learnosity.com"
+              }
         }
     );
 
     return signedRequest;
 
 }
+
+export async function getAssessment() {
+  
+    const user_id = "$ANONYMIZED_USER_ID";
+    const session_id = uuid.v4();
+
+    const learnositySdk = new Learnosity(); // Instantiate the SDK
+    // Items API configuration parameters.
+    const signedRequest = learnositySdk.init(
+        'items',                              
+        {
+            consumer_key: config.consumerKey, 
+            domain: domain                  
+        },
+        config.consumerSecret,                
+        {
+
+            user_id: user_id,
+            items: ["Demo3", "Demo4", "Demo8", "Demo9"],
+            session_id: session_id,
+            activity_id: 'Demo Activity',
+            rendering_type: 'assess',
+            type: 'submit_practice',
+            name: 'Items API Example',
+            config:{
+                regions: "main",
+                configuration: {
+                    onsubmit_redirect_url: `/reports/?session_id=${session_id}`
+                }
+            }
+        }
+    );
+
+    return signedRequest;
+
+}
+export async function getReport(session_id) {
+    const user_id = "$ANONYMIZED_USER_ID";
+
+    const learnositySdk = new Learnosity(); // Instantiate the SDK
+    // Items API configuration parameters.
+    const signedRequest = learnositySdk.init(
+        'reports',                              
+        {
+            consumer_key: config.consumerKey, 
+            domain: domain                  
+        },
+        config.consumerSecret,                
+        {
+            // Reports array to specify the type(s) of the reports to load on the page. This example uses one report type for simplicity, but you can specify multiple report types.
+            reports: [
+                {
+                    // type of the report you would like to request
+                    type: 'session-detail-by-item',
+                    // the id for the report which will match that of the html div element hook we want the report to render into
+                    // (this div can be found on line 11 of docs/quickstart/views/reports.ejs)
+                    id: 'session-detail',
+                    // The unique student identifier that was generated for the student at the time of the assessment
+                    user_id: user_id,
+                    // session id of the assessment session we wish to report on. This one uses the id a completed session from our Demos.
+                    session_id: session_id
+                }
+            ]
+        }
+    );
+
+    return signedRequest;
+
+}
+
+export let completedAssessments = [];
+
