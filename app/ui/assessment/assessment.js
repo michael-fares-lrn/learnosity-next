@@ -38,7 +38,7 @@ export default function Assessment({signedRequest}) {
     }, []);
 
     return (
-        <div>
+        <div className="shadow-xl p-3">
              <div id="learnosity_assess"></div>
         </div>
        

@@ -3,16 +3,12 @@ const Learnosity = require('learnosity-sdk-nodejs');
 const config = require('./config'); // Load consumer key & secret from config.js
 
 const domain = 'localhost';
-const uuid = require('uuid');    
-
-export async function getMessage() {
-    return {message: "this is the test message from the server async function"}
-}
+const uuid = require('uuid');
+const learnositySdk = new Learnosity(); // Instantiate the SDK    
 
 export async function getAuthoring() {
 
-
-    const learnositySdk = new Learnosity(); // Instantiate the SDK
+   
     // Author API configuration parameters.
     const signedRequest = learnositySdk.init(
         'author',                             
@@ -37,12 +33,12 @@ export async function getAuthoring() {
 
 }
 
-export async function getAssessment() {
+export async function getAssessment(activity_template_id) {
   
     const user_id = "$ANONYMIZED_USER_ID";
     const session_id = uuid.v4();
 
-    const learnositySdk = new Learnosity(); // Instantiate the SDK
+
     // Items API configuration parameters.
     const signedRequest = learnositySdk.init(
         'items',                              
@@ -54,7 +50,7 @@ export async function getAssessment() {
         {
 
             user_id: user_id,
-            items: ["Demo3", "Demo4", "Demo8", "Demo9"],
+            activity_template_id: activity_template_id,
             session_id: session_id,
             activity_id: 'Demo Activity',
             rendering_type: 'assess',
@@ -75,7 +71,7 @@ export async function getAssessment() {
 export async function getReport(session_id) {
     const user_id = "$ANONYMIZED_USER_ID";
 
-    const learnositySdk = new Learnosity(); // Instantiate the SDK
+
     // Items API configuration parameters.
     const signedRequest = learnositySdk.init(
         'reports',                              
@@ -106,5 +102,5 @@ export async function getReport(session_id) {
 
 }
 
-export let completedAssessments = [];
+
 

@@ -1,7 +1,6 @@
 import { getReport } from "../lib/data";
-
-
 import Report from "../ui/report/report";
+
 export default async function ReportsPage({ searchParams }) {
     console.log("searchParams", searchParams);
     const session_id =
@@ -18,7 +17,7 @@ export default async function ReportsPage({ searchParams }) {
                     here. The report shown here is an example report from <a className="text-blue-800" href="https://demos.learnosity.com/analytics/student-centric-reporting.php#session-detail-report" target="_blank">demos page here.</a>
                     <br/>
                     <br/>
-                    Complete an assessment on the assesment page and then you will see a report for it here after you submit it!
+                    Complete an assessment on the <a className="text-blue-800" href="/assessment">assesment page</a> and then you will see a report for it here after you submit it!
                 </p>
             )}
             <Report signedRequest={signedRequest} />

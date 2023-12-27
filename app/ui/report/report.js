@@ -19,7 +19,7 @@ export default function Report({signedRequest}) {
                 },
             };
            
-            var reportsApp = LearnosityReports.init(
+            const reportsApp = LearnosityReports.init(
                 signedRequest,
                 callbacks
             );
@@ -33,7 +33,7 @@ export default function Report({signedRequest}) {
     }, []);
 
     return (
-        <div>
+        <div className="shadow-xl p-3">
              <div id="session-detail"></div>
         </div>
        
